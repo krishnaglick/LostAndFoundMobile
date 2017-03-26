@@ -7,7 +7,7 @@ const mapStyle = StyleSheet.create({
     height: 400,
     width: 400,
     justifyContent: 'flex-end',
-    alignItems: 'center',
+    alignItems: 'center'
   },
   map: {
     ...StyleSheet.absoluteFillObject,

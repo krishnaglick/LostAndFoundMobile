@@ -72,13 +72,11 @@ class Map extends Component {
         }
         </MapView>
         <Button raised title='Center' onPress={this.center} buttonStyle={styles.buttonStyle} />
-        <View>
-          <Text>{this.state.selectedLocation.description}</Text>
-          <Image
-            style={{width: 50, height: 50}}
-            source={{uri: this.state.selectedLocation.uri}}
-          />
-        </View>
+        <Text>{this.state.selectedLocation.description}</Text>
+        <Image
+          style={{width: 50, height: 50}}
+          source={{uri: this.state.selectedLocation.uri}}
+        />
       </View>
     );
   }

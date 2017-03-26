@@ -2,8 +2,8 @@
 import React, { Component } from 'react';
 import { View, Text, TextInput, Image, TouchableHighlight } from 'react-native';
 import { Button } from 'react-native-elements';
-import { show } from '../helpers/imagePicker';
 
+import { show } from '../helpers/imagePicker';
 import { submitLocation, getLocation } from '../helpers/location';
 import { uploadImage } from '../helpers/images';
 
@@ -13,9 +13,10 @@ class Report extends Component {
   constructor(...args) {
     super(...args);
     this.state = {
-      description: '',
+      description: 'Description of, or info about, item.',
       uri: 'https://facebook.github.io/react/img/logo_og.png',
-      chosenImage: null
+      chosenImage: null,
+      title: 'Submit'
     };
 
     this.submit = this.submit.bind(this);
@@ -38,9 +39,9 @@ class Report extends Component {
   async submit() {
     if(this.submitting) return;
     this.submitting = true;
+    this.setState({title: 'Submitting...'});
 
     const { description } = this.state;
-    //if(!description) return; //TODO: Alert to let them know they needa fill something in
 
     try {
       const { headers: { Location: uri } } = await uploadImage(this.state.chosenImage);
@@ -56,6 +57,7 @@ class Report extends Component {
       console.error(x);
     }
     this.submitting = false;
+    this.setState({title: 'Submit'});
   }
 
   render() {
@@ -63,7 +65,7 @@ class Report extends Component {
       <View>
         <TouchableHighlight onPress={this.changeImage}>
           <Image
-            style={{width: 50, height: 50}}
+            style={{width: '100%', height: '50%'}}
             source={{uri: this.state.uri}}
           />
         </TouchableHighlight>
@@ -76,7 +78,8 @@ class Report extends Component {
           backgroundColor='#03A9F4'
           fontFamily='Lato'
           buttonStyle={styles.buttonStyle}
-          title='Submit'
+          title={this.state.title}
+          disabled={this.state.title !== 'Submit'}
           onPress={this.submit}/>
       </View>
     );

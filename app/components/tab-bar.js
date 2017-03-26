@@ -13,9 +13,10 @@ class TabBar extends Component {
     this.state = {
       selectedTab: 'map',
     };
+    this.changeTab = this.changeTab.bind(this);
   }
 
-  changeTab (selectedTab) {
+  changeTab(selectedTab) {
     this.setState({selectedTab});
   }
 
