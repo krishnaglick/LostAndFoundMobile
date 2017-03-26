@@ -13,7 +13,7 @@ class Report extends Component {
   constructor(...args) {
     super(...args);
     this.state = {
-      description: 'Description of, or info about, item.',
+      description: '',
       uri: 'https://facebook.github.io/react/img/logo_og.png',
       chosenImage: null,
       title: 'Submit'
@@ -57,7 +57,12 @@ class Report extends Component {
       console.error(x);
     }
     this.submitting = false;
-    this.setState({title: 'Submit'});
+    this.setState({
+      description: '',
+      uri: 'https://facebook.github.io/react/img/logo_og.png',
+      chosenImage: null,
+      title: 'Submit'
+    });
   }
 
   render() {
@@ -65,12 +70,13 @@ class Report extends Component {
       <View>
         <TouchableHighlight onPress={this.changeImage}>
           <Image
-            style={{width: '100%', height: '50%'}}
+            style={{width: '100%', height: 200}}
             source={{uri: this.state.uri}}
           />
         </TouchableHighlight>
         <TextInput
           onChangeText={(description) => this.setState({description})}
+          placeholder='Description of, or info about, item.'
           value={this.state.description}
         />
         <Button

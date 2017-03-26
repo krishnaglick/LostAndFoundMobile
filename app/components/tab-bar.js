@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { Tabs, Tab, Icon } from 'react-native-elements';
 
-import Map from './map';
+import Map, { updateLocations } from './map';
 import Report from './report';
 
 import style from '../styles/tab-bar';
@@ -12,12 +12,16 @@ class TabBar extends Component {
     super(...args);
     this.state = {
       selectedTab: 'map',
+      init: true
     };
     this.changeTab = this.changeTab.bind(this);
   }
 
   changeTab(selectedTab) {
-    this.setState({selectedTab});
+    if(selectedTab === 'map' && !this.state.init)
+      updateLocations();
+
+    this.setState({ selectedTab, init: false });
   }
 
   render() {

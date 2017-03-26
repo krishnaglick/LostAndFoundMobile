@@ -4,9 +4,16 @@ import { View, Text, Image } from 'react-native';
 import MapView from 'react-native-maps';
 import { Button } from 'react-native-elements';
 
+import ImagePreviewer from './image-previewer';
 import { getLocation, getLocations } from '../helpers/location';
 
 import styles from '../styles/map';
+
+let updateLocations = async function() {
+  this.setState({
+    locations: await getLocations()
+  });
+};
 
 class Map extends Component {
   constructor(...args) {
@@ -18,24 +25,24 @@ class Map extends Component {
         latitudeDelta: 0.0922,
         longitudeDelta: 0.0421,
       },
-      locations: [],
-      selectedLocation: {}
+      locations: this.props.locations || [],
+      selectedLocation: {},
+      imageWidth: 50,
+      imageHeight: 50
     };
     this.onRegionChange = this.onRegionChange.bind(this);
     this.center = this.center.bind(this);
-    this.getLocations = this.getLocations.bind(this);
+
+    updateLocations = updateLocations.bind(this);
+  }
+
+  componentDidMount() {
     this.center();
-    this.getLocations();
+    updateLocations();
   }
 
   onRegionChange(region) {
     this.setState({region});
-  }
-
-  async getLocations() {
-    this.setState({
-      locations: await getLocations()
-    });
   }
 
   async center() {
@@ -65,21 +72,18 @@ class Map extends Component {
                 longitude: location.longitude,
                 latitude: location.latitude
               }}
-              description={location.description}
+              title={location.description}
               onPress={() => this.setState({ selectedLocation: { description: location.description, uri: location.uri } })}
             />
           ))
         }
         </MapView>
         <Button raised title='Center' onPress={this.center} buttonStyle={styles.buttonStyle} />
-        <Text>{this.state.selectedLocation.description}</Text>
-        <Image
-          style={{width: 50, height: 50}}
-          source={{uri: this.state.selectedLocation.uri}}
-        />
+        <ImagePreviewer uri={this.state.selectedLocation.uri} />
       </View>
     );
   }
 }
 
 export default Map;
+export { updateLocations };

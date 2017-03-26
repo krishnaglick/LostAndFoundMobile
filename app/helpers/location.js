@@ -28,7 +28,6 @@ exports.getLocations = async function() {
       const vals = [];
       data = data.val();
       Object.keys(data).forEach((key) => vals.push(data[key]));
-      console.log(vals);
       res(vals);
     });
   });
